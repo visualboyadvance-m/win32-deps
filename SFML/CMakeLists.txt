@@ -2,7 +2,7 @@ include_directories(BEFORE include src)
 
 set(SRC_NETWORK
 	src/SFML/Network/Http.cpp
-	src/SFML/Network/IPAddress.cpp
+	src/SFML/Network/IpAddress.cpp
 	src/SFML/Network/Packet.cpp
 	src/SFML/Network/Socket.cpp
 	src/SFML/Network/SocketSelector.cpp
