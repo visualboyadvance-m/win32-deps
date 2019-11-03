@@ -1,3 +1,3 @@
-[submodule "winsparkle"]
-	path = winsparkle
-	url = git://github.com/vslavik/winsparkle.git
+[submodule "winsparkle-static"]
+	path = winsparkle-static
+	url = https://github.com/openplanet-nl/winsparkle-static.git
