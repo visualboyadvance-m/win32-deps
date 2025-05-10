@@ -170,6 +170,10 @@ int getopt_argerror( int mode, char *fmt, CHAR *prog, struct option *opt, int re
 int getopt_conventions( int flags )
 {
   static int conventions = 0;
+#if __STDC_WANT_SECURE_LIB__
+  size_t posix_correct_size = 256;
+  char *posix_correct = malloc(posix_correct_size);
+#endif
 
   if( (conventions == 0) && ((flags & getopt_set_conventions) == 0) )
   {
@@ -177,7 +181,13 @@ int getopt_conventions( int flags )
      * initialise them now!
      */
     conventions = getopt_set_conventions;
+#if __STDC_WANT_SECURE_LIB__
+    getenv_s(&posix_correct_size, posix_correct, posix_correct_size, "POSIXLY_CORRECT");
+
+    if( (flags == getopt_pluschar) || (posix_correct != NULL) )
+#else
     if( (flags == getopt_pluschar) || (getenv( "POSIXLY_CORRECT" ) != NULL) )
+#endif
       conventions |= getopt_posixly_correct;
   }
 
@@ -187,6 +197,11 @@ int getopt_conventions( int flags )
      * but this is a specific request to augment them.
      */
     conventions |= flags;
+
+#if __STDC_WANT_SECURE_LIB__
+  if (posix_correct != NULL)
+    free(posix_correct);
+#endif
 
   /* in any event, return the currently established conventions.
    */
@@ -435,7 +450,7 @@ int getopt_parse( int mode, getopt_std_args, ... )
     /* we are parsing a standard, or short format, option argument ...
      */
     const CHAR *optchar;
-    if( (optchar = getopt_match( optopt = *nextchar++, optstring )) != NULL )
+    if( (optchar = getopt_match( (CHAR)(optopt = *nextchar++), optstring )) != NULL )
     {
       /* we have identified it as valid ...
        */
