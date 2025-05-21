@@ -1233,7 +1233,7 @@ __inline HRESULT XAudio2Create(__deref_out IXAudio2** ppXAudio2, UINT32 Flags X2
 
     #ifdef __cplusplus
 
-    #if defined(_MSC_VER)
+    #if defined(_MSC_VER) && !defined(__clang__)
         HRESULT hr = CoCreateInstance((Flags & XAUDIO2_DEBUG_ENGINE) ? __uuidof(XAudio2_Debug) : __uuidof(XAudio2),
                                       NULL, CLSCTX_INPROC_SERVER, __uuidof(IXAudio2), (void**)&pXAudio2);
     #else
