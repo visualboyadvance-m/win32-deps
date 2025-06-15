@@ -4,6 +4,12 @@
 #ifndef _COMDECL_H_
 #define _COMDECL_H_
 
+#ifdef __clang__
+#ifndef INITGUID
+#define INITGUID 1
+#endif
+#endif
+
 #ifndef _XBOX
     #include <basetyps.h>   // For standard COM interface macros
 #else
@@ -21,7 +27,7 @@
 // GUID definitions by defining the INITGUID preprocessor constant or by linking
 // to a GUID library.  This works in either C or C++.
 
-#if defined(__cplusplus) && defined(_MSC_VER)
+#if (defined(__cplusplus) && defined(_MSC_VER)) && !defined(__clang__)
 
     #define DECLSPEC_UUID_WRAPPER(x) __declspec(uuid(#x))
     #ifdef INITGUID
